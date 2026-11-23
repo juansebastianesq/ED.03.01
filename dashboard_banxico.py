@@ -257,22 +257,15 @@ with abajo_izq:
     st.pyplot(fig)
 
 with abajo_der:
-    st.subheader("Promedio por mes y año")
-    calor = principal.pivot_table(index="Anio", columns="Mes",
-                                  values="Valor", aggfunc="mean")
-
+    st.subheader("Distribución histórica de valores")
     fig, ax = plt.subplots(figsize=(6, 3.4))
-    imagen = ax.imshow(calor, cmap="YlGnBu", aspect="auto")
-    fig.colorbar(imagen, ax=ax)
-    ax.set_xticks(range(len(calor.columns)))
-    ax.set_xticklabels(["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul",
-                        "Ago", "Sep", "Oct", "Nov", "Dic"][:len(calor.columns)])
-    ax.set_yticks(range(len(calor.index)))
-    ax.set_yticklabels(calor.index)
-    ax.grid(False)
+    # Un histograma para ver en qué rangos se concentran los precios
+    sns.histplot(data=principal, x="Valor", bins=30, color=AZUL, kde=True, ax=ax)
+    ax.set_xlabel("Valor de la serie")
+    ax.set_ylabel("Frecuencia (Días)")
     st.pyplot(fig)
-    st.caption("Escala secuencial: el valor tiene orden pero no un cero "
-               "con significado, así que no va divergente.")
+    st.caption("Muestra la concentración de los datos: en qué niveles "
+               "ha pasado más tiempo la serie.")
 
 
 # ─── Datos ─────────────────────────────────────────────────────────────
